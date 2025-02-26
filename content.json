@@ -1,11 +1,32 @@
 {
+    "6P8HSFGjdDY": {
+        "type": "shorts",
+        "videoId": "KH1MYwXt",
+        "contentLink": "https://example.com/unlocked-content-1"
+    },
     "dcjmOte5tKI": {
-        "link": "https://yourwebsite.com/unlocked-content-1"
+        "type": "video",
+        "videoId": "dcjmOte5tKI",
+        "contentLink": "https://example.com/unlocked-content-2"
     },
-    "XyZ123Ab": {
-        "link": "https://yourwebsite.com/unlocked-content-2"
+    "newShorts1": {
+        "type": "shorts",
+        "videoId": "newShorts1",
+        "contentLink": "https://example.com/unlocked-content-3"
     },
-    "ABCDE12345": {
-        "link": "https://yourwebsite.com/unlocked-content-3"
+    "newVideo1": {
+        "type": "video",
+        "videoId": "newVideo1",
+        "contentLink": "https://example.com/unlocked-content-4"
+    },
+    "newShorts2": {
+        "type": "shorts",
+        "videoId": "newShorts2",
+        "contentLink": "https://example.com/unlocked-content-5"
+    },
+    "newVideo2": {
+        "type": "video",
+        "videoId": "newVideo2",
+        "contentLink": "https://example.com/unlocked-content-6"
     }
 }
