@@ -8,62 +8,41 @@
         async function loadContent() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
+
             if (!id) {
-                document.getElementById("message").innerText = "Invalid request. No ID found.";
+                alert("No ID provided in URL.");
                 return;
             }
 
             try {
                 const response = await fetch('content.json');
                 const data = await response.json();
-                
+
                 if (!data[id]) {
-                    document.getElementById("message").innerText = "Invalid or expired link.";
+                    alert("Invalid content ID.");
                     return;
                 }
 
-                const youtubeId = data[id].video;
+                const videoId = data[id].video;
                 const promisedLink = data[id].link;
-                
-                document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&enablejsapi=1`;
-                document.getElementById("message").innerText = "Watch the video to unlock your link.";
-                
+
+                // Open YouTube video
+                window.location.href = `vnd.youtube://${videoId}`;
+
+                // Unlock link after 30 seconds
                 setTimeout(() => {
-                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}" target="_blank">Click here to get your promised content</a>`;
-                }, 30000); // Unlock after 30 seconds
-
+                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}">Click here to claim your reward</a>`;
+                }, 30000);
+                
             } catch (error) {
-                document.getElementById("message").innerText = "Error loading content.";
+                alert("Error loading content.");
             }
         }
-    <script>
-    async function loadContent() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-
-        if (!id) {
-            alert("No ID provided in URL.");
-            return;
-        }
-
-        try {
-            const response = await fetch("content.json");
-            const data = await response.json();
-
-            if (!data[id]) {
-                alert("Invalid content ID.");
-                return;
-            }
-
-            const videoId = data[id].video.split("youtube://")[1];
-
-            // Open the YouTube app directly
-            window.location.href = "vnd.youtube:" + videoId;
-            
-        } catch (error) {
-            console.error("Error loading content.json:", error);
-        }
-    }
-
-    window.onload = loadContent;
-</script>
+    </script>
+</head>
+<body onload="loadContent()">
+    <h2>Unlock Your Content</h2>
+    <p id="message">Loading...</p>
+    <div id="unlockLink"></div>
+</body>
+</html>
