@@ -1,14 +1,6 @@
 {
-    "KH1MYwXt": {
-        "video": "youtube://P5KCIL_I6Hw",
-        "link": "https://example.com/content1"
-    },
-    "Rewg3Qfy": {
-        "video": "youtube://P5KCIL_I6Hw",
-        "link": "https://example.com/content2"
-    },
-    "yKi6aHnf": {
-        "video": "youtube://P5KCIL_I6Hw",
-        "link": "https://example.com/content3"
-    }
+  "KH1MYwXt": {
+    "video": "KH1MYwXt",
+    "link": "https://example.com/reward"
+  }
 }
