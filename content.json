@@ -28,5 +28,75 @@
         "type": "video",
         "videoId": "newVideo2",
         "contentLink": "https://example.com/unlocked-content-6"
+    },
+    "newShorts3": {
+        "type": "shorts",
+        "videoId": "newShorts3",
+        "contentLink": "https://example.com/unlocked-content-7"
+    },
+    "newVideo3": {
+        "type": "video",
+        "videoId": "newVideo3",
+        "contentLink": "https://example.com/unlocked-content-8"
+    },
+    "newShorts4": {
+        "type": "shorts",
+        "videoId": "newShorts4",
+        "contentLink": "https://example.com/unlocked-content-9"
+    },
+    "newVideo4": {
+        "type": "video",
+        "videoId": "newVideo4",
+        "contentLink": "https://example.com/unlocked-content-10"
+    },
+    "newShorts5": {
+        "type": "shorts",
+        "videoId": "newShorts5",
+        "contentLink": "https://example.com/unlocked-content-11"
+    },
+    "newVideo5": {
+        "type": "video",
+        "videoId": "newVideo5",
+        "contentLink": "https://example.com/unlocked-content-12"
+    },
+    "newShorts6": {
+        "type": "shorts",
+        "videoId": "newShorts6",
+        "contentLink": "https://example.com/unlocked-content-13"
+    },
+    "newVideo6": {
+        "type": "video",
+        "videoId": "newVideo6",
+        "contentLink": "https://example.com/unlocked-content-14"
+    },
+    "newShorts7": {
+        "type": "shorts",
+        "videoId": "newShorts7",
+        "contentLink": "https://example.com/unlocked-content-15"
+    },
+    "newVideo7": {
+        "type": "video",
+        "videoId": "newVideo7",
+        "contentLink": "https://example.com/unlocked-content-16"
+    },
+    "newShorts8": {
+        "type": "shorts",
+        "videoId": "newShorts8",
+        "contentLink": "https://example.com/unlocked-content-17"
+    },
+    "newVideo8": {
+        "type": "video",
+        "videoId": "newVideo8",
+        "contentLink": "https://example.com/unlocked-content-18"
+    },
+    "newShorts9": {
+        "type": "shorts",
+        "videoId": "newShorts9",
+        "contentLink": "https://example.com/unlocked-content-19"
+    },
+    "newVideo9": {
+        "type": "video",
+        "videoId": "newVideo9",
+        "contentLink": "https://example.com/unlocked-content-20"
     }
 }
