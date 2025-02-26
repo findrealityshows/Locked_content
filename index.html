@@ -7,10 +7,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #1E3C72, #2A5298);
+            background: #000000; /* Full black background */
             color: white;
-            text-align: center;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         .container {
@@ -19,29 +22,14 @@
             padding: 20px;
             border-radius: 10px;
             max-width: 400px;
-            margin: auto;
+            width: 90%;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Wavy design at the top */
-        .wave {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: url('https://svgshare.com/i/xWf.svg') repeat-x;
+            text-align: center;
         }
 
         h1 {
             font-size: 24px;
-        }
-
-        .lock-icon {
-            width: 30px;
-            vertical-align: middle;
+            font-weight: bold;
         }
 
         .instructions {
@@ -112,9 +100,7 @@
 <body>
 
     <div class="container">
-        <div class="wave"></div>
-
-        <h1><img src="lock.png" alt="Lock Icon" class="lock-icon"> Locked</h1>
+        <h1>Locked Content</h1>
         <p>To reach the target page, complete the following steps:</p>
 
         <div class="instructions">
