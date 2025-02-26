@@ -15,7 +15,8 @@
             }
 
             try {
-                const response = await fetch('content.json');
+                const response = await fetch('content.txt');
+
                 const data = await response.json();
 
                 if (!data[id]) {
