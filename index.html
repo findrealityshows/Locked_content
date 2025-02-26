@@ -114,15 +114,35 @@
     </div>
 
     <script>
-        document.getElementById("watchButton").addEventListener("click", function() {
-            this.classList.add("loading"); // Add loading animation
-            const videoUrl = "https://www.youtube.com/watch?v=YOUR_VIDEO_ID";
-            window.open(videoUrl, "_blank");
-            setTimeout(() => {
-                document.getElementById("unlockButton").classList.add("active");
-            }, 15000);
-        });
-    </script>
+    // Extract 'id' from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoId = urlParams.get('id');
 
-</body>
-</html>
+    if (!videoId) {
+        alert("Invalid or missing video ID!");
+    } else {
+        fetch("content.json")
+            .then(response => response.json())
+            .then(data => {
+                if (data[videoId]) {
+                    const videoType = data[videoId].type;
+                    const videoLink = videoType === "shorts"
+                        ? `https://youtube.com/shorts/${videoId}`
+                        : `https://www.youtube.com/watch?v=${videoId}`;
+
+                    // Update button click event dynamically
+                    document.getElementById("watchButton").addEventListener("click", function() {
+                        this.classList.add("loading"); // Add loading animation
+                        window.open(videoLink, "_blank"); // Open correct video
+                        setTimeout(() => {
+                            document.getElementById("unlockButton").classList.add("active");
+                        }, 15000);
+                    });
+
+                } else {
+                    alert("Video not found in content.json!");
+                }
+            })
+            .catch(error => console.error("Error loading content.json:", error));
+    }
+</script>
