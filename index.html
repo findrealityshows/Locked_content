@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Your Link</title>
+    <script>
+        async function loadContent() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (!id) {
+                document.getElementById("message").innerText = "Invalid request. No ID found.";
+                return;
+            }
+
+            try {
+                const response = await fetch('content.json');
+                const data = await response.json();
+                
+                if (!data[id]) {
+                    document.getElementById("message").innerText = "Invalid or expired link.";
+                    return;
+                }
+
+                const youtubeId = data[id].video;
+                const promisedLink = data[id].link;
+                
+                document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&enablejsapi=1`;
+                document.getElementById("message").innerText = "Watch the video to unlock your link.";
+                
+                setTimeout(() => {
+                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}" target="_blank">Click here to get your promised content</a>`;
+                }, 30000); // Unlock after 30 seconds
+
+            } catch (error) {
+                document.getElementById("message").innerText = "Error loading content.";
+            }
+        }
+    </script>
+</head>
+<body onload="loadContent()">
+    <h2>Unlock Your Content</h2>
+    <p id="message">Loading...</p>
+    <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    <div id="unlockLink"></div>
+</body>
+</html>
