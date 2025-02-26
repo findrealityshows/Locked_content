@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #000000; /* Full black background */
+            background: #000000;
             color: white;
             display: flex;
             justify-content: center;
@@ -114,35 +114,48 @@
     </div>
 
     <script>
-    // Extract 'id' from URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get('id');
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoId = urlParams.get('id');
 
-    if (!videoId) {
-        alert("Invalid or missing video ID!");
-    } else {
-        fetch("content.json")
-            .then(response => response.json())
-            .then(data => {
-                if (data[videoId]) {
-                    const videoType = data[videoId].type;
-                    const videoLink = videoType === "shorts"
-                        ? `https://youtube.com/shorts/${videoId}`
-                        : `https://www.youtube.com/watch?v=${videoId}`;
+            if (!videoId) {
+                alert("Invalid or missing video ID!");
+                return;
+            }
 
-                    // Update button click event dynamically
-                    document.getElementById("watchButton").addEventListener("click", function() {
-                        this.classList.add("loading"); // Add loading animation
-                        window.open(videoLink, "_blank"); // Open correct video
-                        setTimeout(() => {
-                            document.getElementById("unlockButton").classList.add("active");
-                        }, 15000);
-                    });
+            fetch("content.json")
+                .then(response => response.json())
+                .then(data => {
+                    if (data[videoId]) {
+                        const videoType = data[videoId].type;
+                        const videoLink = videoType === "shorts"
+                            ? `https://youtube.com/shorts/${videoId}`
+                            : `https://www.youtube.com/watch?v=${videoId}`;
+                        const contentLink = data[videoId].contentLink;
 
-                } else {
-                    alert("Video not found in content.json!");
-                }
-            })
-            .catch(error => console.error("Error loading content.json:", error));
-    }
-</script>
+                        // Watch button functionality
+                        document.getElementById("watchButton").addEventListener("click", function () {
+                            this.classList.add("loading");
+                            window.open(videoLink, "_blank");
+                            setTimeout(() => {
+                                const unlockBtn = document.getElementById("unlockButton");
+                                unlockBtn.classList.add("active");
+
+                                // Unlock button redirects to content
+                                unlockBtn.addEventListener("click", function () {
+                                    window.location.href = contentLink;
+                                });
+
+                            }, 15000);
+                        });
+
+                    } else {
+                        alert("Video not found in content.json!");
+                    }
+                })
+                .catch(error => console.error("Error loading content.json:", error));
+        };
+    </script>
+
+</body>
+</html>
