@@ -4,46 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unlock Your Content</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .lock-icon {
+            width: 80px;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .step-box {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .step-box span {
+            font-weight: bold;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+        .watch-button {
+            background-color: #007bff;
+            color: white;
+        }
+        .watch-button:hover {
+            background-color: #0056b3;
+        }
+        .unlock-button {
+            background-color: #ccc;
+            color: white;
+            cursor: not-allowed;
+        }
+        .unlock-button.enabled {
+            background-color: #28a745;
+            cursor: pointer;
+        }
+        .unlock-button.enabled:hover {
+            background-color: #218838;
+        }
+        .loading {
+            display: none;
+            margin-top: 10px;
+        }
+        .loading img {
+            width: 30px;
+        }
+    </style>
 </head>
-<body onload="loadContent()">
-    <h2>Unlock Your Content</h2>
-    <p id="message">Loading...</p>
-    <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
-    <div id="unlockLink"></div>
+<body>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Lock-icon-blue.png" class="lock-icon" alt="Lock Icon">
+        <div class="title">Locked</div>
+
+        <div class="description">
+            To reach the target page, complete the following steps:
+        </div>
+
+        <div class="step-box">
+            <span>1 Watch & Follow</span>
+            <div class="loading hidden" id="loading">
+                <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading...">
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="button watch-button" id="watchButton">Watch & Follow to Get Content</button>
+            <button class="button unlock-button" id="unlockButton" disabled>🔒 Unlock Content</button>
+        </div>
+    </div>
 
     <script>
-        async function loadContent() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
+        document.addEventListener("DOMContentLoaded", function () {
+            const watchButton = document.getElementById("watchButton");
+            const unlockButton = document.getElementById("unlockButton");
+            const loading = document.getElementById("loading");
 
-            if (!id) {
-                document.getElementById("message").innerText = "No ID provided in the URL.";
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoId = urlParams.get("id");
+
+            if (!videoId) {
+                alert("Invalid or missing video ID.");
                 return;
             }
 
-            try {
-                const response = await fetch('content.json');
-                const data = await response.json();
+            let watched = false;
 
-                if (!data[id]) {
-                    document.getElementById("message").innerText = "Invalid content ID.";
+            watchButton.addEventListener("click", function () {
+                loading.style.display = "inline-block";
+                watchButton.disabled = true;
+                watched = true;
+
+                setTimeout(() => {
+                    loading.style.display = "none";
+                    unlockButton.classList.add("enabled");
+                    unlockButton.disabled = false;
+                }, 20000); // 20 seconds countdown
+
+                window.location.href = `https://www.youtube.com/watch?v=${videoId}`;
+            });
+
+            unlockButton.addEventListener("click", function () {
+                if (!watched) {
+                    alert("You need to watch the video first!");
                     return;
                 }
 
-                const youtubeId = data[id].video;
-                const promisedLink = data[id].link;
-
-                document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${youtubeId}`;
-                document.getElementById("message").innerText = "Watch the video to unlock your content.";
-
-                setTimeout(() => {
-                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}" target="_blank">Click here to unlock</a>`;
-                }, 30000); // Unlock after 30 seconds
-
-            } catch (error) {
-                document.getElementById("message").innerText = "Error loading content.";
-            }
-        }
+                fetch("content.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data[videoId] && data[videoId].link) {
+                            window.location.href = data[videoId].link;
+                        } else {
+                            alert("No content found for this video.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching content:", error);
+                        alert("Failed to load content.");
+                    });
+            });
+        });
     </script>
+
 </body>
 </html>
