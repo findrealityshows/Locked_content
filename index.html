@@ -3,47 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unlock Your Link</title>
+    <title>Unlock Your Content</title>
+</head>
+<body onload="loadContent()">
+    <h2>Unlock Your Content</h2>
+    <p id="message">Loading...</p>
+    <iframe id="videoFrame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    <div id="unlockLink"></div>
+
     <script>
         async function loadContent() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
 
             if (!id) {
-                alert("No ID provided in URL.");
+                document.getElementById("message").innerText = "No ID provided in the URL.";
                 return;
             }
 
             try {
-                const response = await fetch('content.txt');
-
+                const response = await fetch('content.json');
                 const data = await response.json();
 
                 if (!data[id]) {
-                    alert("Invalid content ID.");
+                    document.getElementById("message").innerText = "Invalid content ID.";
                     return;
                 }
 
-                const videoId = data[id].video;
+                const youtubeId = data[id].video;
                 const promisedLink = data[id].link;
 
-                // Open YouTube video
-                window.location.href = `vnd.youtube://${videoId}`;
+                document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${youtubeId}`;
+                document.getElementById("message").innerText = "Watch the video to unlock your content.";
 
-                // Unlock link after 30 seconds
                 setTimeout(() => {
-                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}">Click here to claim your reward</a>`;
-                }, 30000);
-                
+                    document.getElementById("unlockLink").innerHTML = `<a href="${promisedLink}" target="_blank">Click here to unlock</a>`;
+                }, 30000); // Unlock after 30 seconds
+
             } catch (error) {
-                alert("Error loading content.");
+                document.getElementById("message").innerText = "Error loading content.";
             }
         }
     </script>
-</head>
-<body onload="loadContent()">
-    <h2>Unlock Your Content</h2>
-    <p id="message">Loading...</p>
-    <div id="unlockLink"></div>
 </body>
 </html>
