@@ -3,169 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unlock Your Content</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .lock-icon {
-            width: 80px;
-            margin-bottom: 10px;
-        }
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .description {
-            font-size: 14px;
-            margin-bottom: 20px;
-            color: #555;
-        }
-        .step-box {
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .step-box span {
-            font-weight: bold;
-        }
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 10px;
-        }
-        .watch-button {
-            background-color: #007bff;
-            color: white;
-        }
-        .watch-button:hover {
-            background-color: #0056b3;
-        }
-        .unlock-button {
-            background-color: #ccc;
-            color: white;
-            cursor: not-allowed;
-        }
-        .unlock-button.enabled {
-            background-color: #28a745;
-            cursor: pointer;
-        }
-        .unlock-button.enabled:hover {
-            background-color: #218838;
-        }
-        .loading {
-            display: none;
-            margin-top: 10px;
-        }
-        .loading img {
-            width: 30px;
-        }
-    </style>
+    <title>Locked Content</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-
     <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Lock-icon-blue.png" class="lock-icon" alt="Lock Icon">
-        <div class="title">Locked</div>
-
-        <div class="description">
-            To reach the target page, complete the following steps:
+        <img src="lock-icon.png" alt="Lock Icon" class="lock-icon"> <!-- Fixed missing lock image -->
+        <h2>Locked</h2>
+        <p>To reach the target page, complete the following steps:</p>
+        
+        <div class="instructions">
+            <p>1. Click the <strong>Watch & Follow to Get Content</strong> button.</p>
+            <p>2. Follow the channel and <strong>watch for at least 15 seconds</strong>.</p>
+            <p>3. Return to unlock the content.</p>
         </div>
 
-        <div class="step-box">
-            <span>1 Watch & Follow</span>
-            <div class="loading hidden" id="loading">
-                <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading...">
-            </div>
-        </div>
+        <button id="watchButton" class="btn primary">
+            <span>Watch & Follow to Get Content</span>
+            <div id="loading" class="loading-spinner"></div> <!-- Loading animation inside button -->
+        </button>
 
-        <div class="button-container">
-            <button class="button watch-button" id="watchButton">Watch & Follow to Get Content</button>
-            <button class="button unlock-button" id="unlockButton" disabled>🔒 Unlock Content</button>
-        </div>
+        <button id="unlockButton" class="btn secondary" disabled>
+            🔓 Unlock Content
+        </button>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const watchButton = document.getElementById("watchButton");
-            const unlockButton = document.getElementById("unlockButton");
-            const loading = document.getElementById("loading");
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const videoId = urlParams.get("id");
-
-            if (!videoId) {
-                alert("Invalid or missing video ID.");
-                return;
-            }
-
-            let watched = false;
-
-            watchButton.addEventListener("click", function () {
-                loading.style.display = "inline-block";
-                watchButton.disabled = true;
-                watched = true;
-
-                setTimeout(() => {
-                    loading.style.display = "none";
-                    unlockButton.classList.add("enabled");
-                    unlockButton.disabled = false;
-                }, 20000); // 20 seconds countdown
-
-                window.location.href = `https://www.youtube.com/watch?v=${videoId}`;
-            });
-
-            unlockButton.addEventListener("click", function () {
-                if (!watched) {
-                    alert("You need to watch the video first!");
-                    return;
-                }
-
-                fetch("content.json")
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data[videoId] && data[videoId].link) {
-                            window.location.href = data[videoId].link;
-                        } else {
-                            alert("No content found for this video.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching content:", error);
-                        alert("Failed to load content.");
-                    });
-            });
-        });
-    </script>
-
 </body>
 </html>
