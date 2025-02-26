@@ -4,29 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Locked Content</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #1E3C72, #2A5298);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Wavy design at the top */
+        .wave {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: url('https://svgshare.com/i/xWf.svg') repeat-x;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .lock-icon {
+            width: 30px;
+            vertical-align: middle;
+        }
+
+        .instructions {
+            font-size: 16px;
+            text-align: left;
+            margin: 15px 0;
+        }
+
+        .instructions strong {
+            color: #1E3C72;
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            position: relative;
+        }
+
+        .btn-primary.loading::after {
+            content: '';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            width: 16px;
+            height: 16px;
+            border: 3px solid white;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #28a745;
+            color: white;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .btn-secondary.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
+
     <div class="container">
-        <img src="lock-icon.png" alt="Lock Icon" class="lock-icon"> <!-- Fixed missing lock image -->
-        <h2>Locked</h2>
+        <div class="wave"></div>
+
+        <h1><img src="lock.png" alt="Lock Icon" class="lock-icon"> Locked</h1>
         <p>To reach the target page, complete the following steps:</p>
-        
+
         <div class="instructions">
-            <p>1. Click the <strong>Watch & Follow to Get Content</strong> button.</p>
-            <p>2. Follow the channel and <strong>watch for at least 15 seconds</strong>.</p>
-            <p>3. Return to unlock the content.</p>
+            <p><strong>1.</strong> Click the <strong>Watch & Follow to Get Content</strong> button.</p>
+            <p><strong>2.</strong> Follow the channel and <strong>watch for at least 15 seconds.</strong></p>
+            <p><strong>3.</strong> Return to unlock the content.</p>
         </div>
 
-        <button id="watchButton" class="btn primary">
-            <span>Watch & Follow to Get Content</span>
-            <div id="loading" class="loading-spinner"></div> <!-- Loading animation inside button -->
-        </button>
-
-        <button id="unlockButton" class="btn secondary" disabled>
-            🔓 Unlock Content
-        </button>
+        <button id="watchButton" class="btn btn-primary">Watch & Follow to Get Content</button>
+        <button id="unlockButton" class="btn btn-secondary">🔓 Unlock Content</button>
     </div>
+
+    <script>
+        document.getElementById("watchButton").addEventListener("click", function() {
+            this.classList.add("loading"); // Add loading animation
+            const videoUrl = "https://www.youtube.com/watch?v=YOUR_VIDEO_ID";
+            window.open(videoUrl, "_blank");
+            setTimeout(() => {
+                document.getElementById("unlockButton").classList.add("active");
+            }, 15000);
+        });
+    </script>
+
 </body>
 </html>
